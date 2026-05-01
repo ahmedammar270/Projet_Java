@@ -1,21 +1,25 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Nom {
     private String name;
     private String id;
-    private String nomPretraite;
+    private List<String> nomPretraite = new ArrayList<>();
 
     
     public Nom(String name, String id) {
         this.name = name;
         this.id = id;
+        this.nomPretraite.add(name);
     }
 
     public String getName() {
         return name;
     }
-    public void setNomPretraite(String nomPretraite) {
+    public void setNomPretraite(List<String> nomPretraite) {
         this.nomPretraite = nomPretraite;
     }
-    public String getNomPretraite() {
+    public List<String> getNomPretraite() {
         return nomPretraite;
     }   
 }

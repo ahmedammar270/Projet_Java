@@ -10,11 +10,11 @@ class ComparateurExact extends Comparateur {
 }
 class Distance extends Comparateur {
    public double calculerDistance(Nom nom1, Nom nom2) {
-    String s1 = nom1.getNomPretraite();
-    String s2 = nom2.getNomPretraite();
+    String s1 = nom1.getNomPretraite().isEmpty() ? "" : nom1.getNomPretraite().get(0);
+    String s2 = nom2.getNomPretraite().isEmpty() ? "" : nom2.getNomPretraite().get(0);
 
-    if (s1 == null || s1.isEmpty()) return s2.length();
-    if (s2 == null || s2.isEmpty()) return s1.length();
+    if (s1.isEmpty()) return s2.length();
+    if (s2.isEmpty()) return s1.length();
 
     int len1 = s1.length();
     int len2 = s2.length();
