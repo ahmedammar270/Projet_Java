@@ -1,15 +1,19 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SelectionneurSelonLongeur extends SelectionneurDeCanditat {
-    public List<String> selectionner(String fichier,Nom nom){
+
+    public List<String> selectionner(String fichier, Nom nom) {
+
         String nomOriginale = nom.getName();
         int longueur = nomOriginale.length();
+
         List<String> resultats = new ArrayList<>();
 
-        
         double tolerance = 0.3; 
+
+        int min = (int) (longueur * (1 - tolerance));
+        int max = (int) (longueur * (1 + tolerance));
 
         try (BufferedReader br = new BufferedReader(new FileReader(fichier))) {
 
@@ -21,11 +25,9 @@ public class SelectionneurSelonLongeur extends SelectionneurDeCanditat {
                 if (v.length < 2) continue;
 
                 String name = v[1];
-
                 int lenNom = name.length();
 
-            
-                if (Math.abs(lenNom - longueur) <= tolerance * longueur || Math.abs(lenNom - longueur) >= tolerance * longueur) {
+                if (lenNom >= min && lenNom <= max) {
                     resultats.add(name);
                 }
             }
@@ -37,5 +39,3 @@ public class SelectionneurSelonLongeur extends SelectionneurDeCanditat {
         return resultats;
     }
 }
-
-
