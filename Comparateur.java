@@ -1,3 +1,3 @@
-public abstract class Comparateur {
-    public abstract Comparaison comparer(Nom nom1, Nom nom2);
-}
+public interface Comparateur {
+    public Comparaison comparer(Nom nom1, Nom nom2);
+} 

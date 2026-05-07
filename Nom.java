@@ -16,6 +16,9 @@ public class Nom {
     public String getName() {
         return name;
     }
+    public String getId(){
+        return id;
+    }
     public void setNomPretraite(List<String> nomPretraite) {
         this.nomPretraite = nomPretraite;
     }

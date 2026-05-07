@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class SelectionneurSelonLongeur extends SelectionneurDeCanditat {
+public class SelectionneurSelonLongeur implements SelectionneurDeCanditat {
 
     public List<String> selectionner(String fichier, Nom nom) {
 

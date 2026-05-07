@@ -1,4 +1,4 @@
-public class TransformerEnMinuscule extends Pretraiteur {   
+public class TransformerEnMinuscule implements Pretraiteur {   
     public void pretraiter(Nom nom) {
         String nomAPretraiter = nom.getNomPretraite().get(0);
         nomAPretraiter = nomAPretraiter.toLowerCase();

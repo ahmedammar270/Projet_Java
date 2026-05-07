@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-public class DecomposeurSylabe extends Pretraiteur{
+public class DecomposeurSylabe implements Pretraiteur{
       public void pretraiter(Nom nom) {
 
         String mot = nom.getNomPretraite().get(0);

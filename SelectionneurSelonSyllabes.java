@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SelectionneurSelonSyllabes extends SelectionneurDeCanditat {
+public class SelectionneurSelonSyllabes implements SelectionneurDeCanditat {
     public List<String> selectionner(String fichier, Nom nom) {
         List<String> resultats = new ArrayList<>();
         List<String> syllabesNom = nom.getNomPretraite();
