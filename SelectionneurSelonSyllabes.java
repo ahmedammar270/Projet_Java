@@ -16,15 +16,18 @@ public class SelectionneurSelonSyllabes extends SelectionneurDeCanditat {
                 String name = v[1];
                 Nom tempNom = new Nom(v[0],name);
                 List<String> syllabesName = tempNom.getNomPretraite();
+                int syllabesCommunes = 0;
 
             
                 for (String syllabeNom : syllabesNom) {
                     for (String syllabeName : syllabesName) {
                         if (syllabeNom.equals(syllabeName)) {
-                            resultats.add(name);
-                            break;
+                            syllabesCommunes++;
                         }
                     }
+                }
+                if (syllabesCommunes > syllabesNom.size() / 2) {
+                    resultats.add(name);
                 }
             }
         

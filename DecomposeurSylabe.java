@@ -11,7 +11,7 @@ public class DecomposeurSylabe extends Pretraiteur{
         String courant = "";
 
         boolean voyelle = voyelles.contains(mot.charAt(0));
-
+        
         for (char c : mot.toCharArray()) {
             courant += c;
 

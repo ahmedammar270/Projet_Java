@@ -1,5 +1,4 @@
-import java.util.List;
-import java.util.ArrayList;
+
 public class ComparateurEgaliteExacte extends ComparateurDeChaines {
     public Comparaison comparer(Nom nom1, Nom nom2) {
         String nom1Pretraite = String.join(" ", nom1.getNomPretraite());
