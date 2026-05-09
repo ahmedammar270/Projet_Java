@@ -12,8 +12,8 @@ public class GenerateurSimple implements GenerateurDeCandidats {
         List<Couple> result = new ArrayList<>();
         for (Nom nom1 : liste1) {
             for (Nom nom2 : liste2) {
-                Comparaison comp = comparateur.comparer(nom1, nom2);
-                result.add(new Couple(nom1, nom2, comp.getScore()));
+                double score = comparateur.comparer(nom1, nom2);
+                result.add(new Couple(nom1, nom2, score));
             }
         }
         return result;

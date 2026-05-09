@@ -1,4 +1,6 @@
 package selecteurs;
+import java.util.List;
+import nom.Couple;
 public class SelecteurPercentagePremiers implements SelecteurMatching {
 
     private double pourcentage;

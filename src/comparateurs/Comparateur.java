@@ -1,4 +1,6 @@
 package comparateurs;
+import nom.Nom;
+import nom.Couple; 
 public interface Comparateur {
-    public Comparaison comparer(Nom nom1, Nom nom2);
+    public double comparer(Nom nom1, Nom nom2);
 } 

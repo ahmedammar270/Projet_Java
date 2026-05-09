@@ -1,6 +1,7 @@
 package comparateurs;
-
+import nom.Nom;
+import nom.Couple;
 public abstract class ComparateursDeNoms {
-    public abstract Comparaison comparer(Nom nom1, Nom nom2);   
+    public abstract double comparer(Nom nom1, Nom nom2);   
     
 }
