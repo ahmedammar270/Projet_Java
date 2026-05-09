@@ -6,18 +6,23 @@ public class Main {
         List<Nom> liste1 = new ArrayList<>();
         liste1.add(new Nom("Jean", "1"));
         liste1.add(new Nom("Marie", "2"));
+        liste1.add(new Nom("naej", "5"));
 
         List<Nom> liste2 = new ArrayList<>();
         liste2.add(new Nom("Jean", "3"));
         liste2.add(new Nom("Pierre", "4"));
 
-        ComparateursDeNoms comparateur = new ComparateurEgaliteExacte();
-        SelecteurMatching selecteur = new SelecteurSimple();
-
-        MoteurDeRecherche moteur = new MoteurDeRecherche(comparateur, selecteur);
+        ComparateurDeChaines comparateur = new ComparateurNGram(1);
+        MoteurDeRecherche moteur = new MoteurDeRecherche(comparateur);
+        
         moteur.ajouterPretraiteur(new TransformerEnMinuscule());
         moteur.ajouterPretraiteur(new SupprimerAccents());
 
-        moteur.rechercherEtLivrer(liste1, liste2);
+        List<Couple> resultats = moteur.rechercher(liste1, liste2);
+        
+        System.out.println("=== Résultats ===" );
+        for (Couple couple : resultats) {
+            System.out.println(couple);
+        }
     }
 }

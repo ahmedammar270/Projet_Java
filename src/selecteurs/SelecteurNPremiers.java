@@ -1,5 +1,7 @@
+package selecteurs;
 import java.util.List;
 import java.util.ArrayList;
+import nom.Couple;
 public class SelecteurNPremiers implements SelecteurMatching {
     private int n;
 

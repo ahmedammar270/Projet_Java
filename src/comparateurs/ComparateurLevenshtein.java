@@ -1,12 +1,13 @@
-import java.util.List;
-import java.util.ArrayList;
+package comparateurs;
+import nom.Nom;
+import nom.Couple;
 public class ComparateurLevenshtein extends ComparateurDeChaines {
-    public Comparaison comparer(Nom nom1, Nom nom2) {
+    public double comparer(Nom nom1, Nom nom2) {
         String nom1Pretraite = String.join(" ", nom1.getNomPretraite());
         String nom2Pretraite = String.join(" ", nom2.getNomPretraite());
         int distance = calculerDistanceLevenshtein(nom1Pretraite, nom2Pretraite);
         double score = 1.0 - (double) distance / Math.max(nom1Pretraite.length(), nom2Pretraite.length());
-        return new Comparaison(nom1, nom2, score);
+        return score;
     }
 
     private int calculerDistanceLevenshtein(String s1, String s2) {

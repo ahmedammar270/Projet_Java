@@ -1,3 +1,6 @@
+package comparateurs;
+import nom.Nom;
+import nom.Couple;
 import java.util.List;
 import java.util.ArrayList;
 public class ComparateurNGram extends ComparateurDeChaines {
@@ -7,7 +10,7 @@ public class ComparateurNGram extends ComparateurDeChaines {
         this.n = n;
     }
 
-    public Comparaison comparer(Nom nom1, Nom nom2) {
+    public double comparer(Nom nom1, Nom nom2) {
         List<String> ngrams1 = genererNgrams(String.join(" ", nom1.getNomPretraite()), n);
         List<String> ngrams2 = genererNgrams(String.join(" ", nom2.getNomPretraite()), n);
 
@@ -21,7 +24,7 @@ public class ComparateurNGram extends ComparateurDeChaines {
         int union = ngrams1.size() + ngrams2.size() - intersection;
         double score = (union == 0) ? 0.0 : (double) intersection / union;
 
-        return new Comparaison(nom1, nom2, score);
+        return score;
     }
 
     private List<String> genererNgrams(String str, int n) {

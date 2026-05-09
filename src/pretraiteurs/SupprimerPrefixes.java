@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
-public class SupprimerPrefixes extends Pretraiteur {
+package pretraiteurs;
+import nom.Nom;
+public class SupprimerPrefixes implements Pretraiteur {
     public void pretraiter(Nom nom) {
         String nomAPretraiter = nom.getNomPretraite().get(0);   
         String[] prefixes = {"Dr.", "Mr.", "Ms.", "Mrs.", "Prof."};

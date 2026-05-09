@@ -17,7 +17,7 @@ public class MoteurDeRecherche {
 
     public MoteurDeRecherche(ComparateursDeNoms comparateur, SelecteurMatching selecteur) {
         this();
-        this.generateur = new GenerateurDeCandidats(comparateur);
+        this.generateur = new GenerateurSimple(comparateur);
         this.selecteur = selecteur;
     }
 

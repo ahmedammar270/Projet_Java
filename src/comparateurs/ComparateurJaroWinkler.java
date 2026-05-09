@@ -1,13 +1,15 @@
-
+package comparateurs;
+import nom.Nom;
+import nom.Couple;
 public class ComparateurJaroWinkler extends ComparateurDeChaines  {
-        public Comparaison comparer(Nom nom1, Nom nom2) {
+        public double comparer(Nom nom1, Nom nom2) {
         String nom1Pretraite = String.join(" ", nom1.getNomPretraite());
         String nom2Pretraite = String.join(" ", nom2.getNomPretraite());
         
             
             double score = jaroWinkler(nom1Pretraite, nom2Pretraite);
             
-            return new Comparaison(nom1, nom2, score);
+            return score;
         }
         
         private double jaroWinkler(String s1, String s2) {

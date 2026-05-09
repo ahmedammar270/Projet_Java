@@ -1,3 +1,4 @@
+package nom;
 public class Couple {
     private Nom nom1;
     private Nom nom2;
