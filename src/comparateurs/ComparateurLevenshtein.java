@@ -1,3 +1,4 @@
+package comparateurs;
 
 public class ComparateurLevenshtein extends ComparateurDeChaines {
     public Comparaison comparer(Nom nom1, Nom nom2) {

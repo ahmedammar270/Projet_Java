@@ -1,4 +1,4 @@
-
+package pretraiteurs;
 public class SupprimerPrefixes implements Pretraiteur {
     public void pretraiter(Nom nom) {
         String nomAPretraiter = nom.getNomPretraite().get(0);   

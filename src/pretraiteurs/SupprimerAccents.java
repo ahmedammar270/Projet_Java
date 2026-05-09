@@ -1,3 +1,4 @@
+package pretraiteurs;
 public class SupprimerAccents implements Pretraiteur{
     public void pretraiter(Nom nom) {
         String nomAPretraiter = nom.getNomPretraite().get(0);

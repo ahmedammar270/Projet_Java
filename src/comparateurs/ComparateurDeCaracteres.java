@@ -1,5 +1,7 @@
+package comparateurs;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ComparateurDeCaracteres extends ComparateursDeNoms {
     public Comparaison comparer(Nom nom1, Nom nom2) {
