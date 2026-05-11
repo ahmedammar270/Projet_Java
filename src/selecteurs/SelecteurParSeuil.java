@@ -2,11 +2,13 @@ package selecteurs;
 import java.util.List;
 import java.util.ArrayList;
 import nom.Couple;
+import Configuration;
+
 public class SelecteurParSeuil implements SelecteurMatching {
     private double seuil;
 
-    public SelecteurParSeuil(double seuil) {
-        this.seuil = seuil;
+    public SelecteurParSeuil(Configuration config) {
+        this.seuil = config.getSeuil();
     }
     public List<Couple> selectionner(List<Couple> couples) {
         List<Couple> resultats = new ArrayList<>();
@@ -20,3 +22,4 @@ public class SelecteurParSeuil implements SelecteurMatching {
 
     
 }
+
