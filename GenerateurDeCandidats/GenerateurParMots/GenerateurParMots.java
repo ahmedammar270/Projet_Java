@@ -38,3 +38,4 @@ public abstract class GenerateurParMots {
             System.out.println("Couple: " + couple[0] + " <-> " + couple[1]);
     }
 }
+
