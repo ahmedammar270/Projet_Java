@@ -1,29 +1,55 @@
+import java.util.List ; 
+import java.util.ArrayList ;
+
 public class Configuration {
-//     private double seuil = 0.5;
-//     private int N = 10;
-//     private double percentage = 0.1;
+    private double seuil ; 
+    private double pourcentage ; 
+    private int nombrePremiers ; 
+    private List<String> typesCouple ;  
 
-//     public Configuration(double seuil, int N, double percentage) {
-//         this.seuil = seuil;
-//         this.N = N;
-//         this.percentage = percentage;
+    public Configuration() {
+        this.seuil = 0.8;
+        this.pourcentage = 50.0;
+        this.nombrePremiers = 10;
+        this.typesCouple = new ArrayList<>();
+    }
 
-//     }
+    public double getSeuil() {
+        return seuil;
+    }
 
+    public void setSeuil(double seuil) {
+        this.seuil = seuil;
+    }
 
-//     public double getSeuil() {
-//         return seuil;
-//     }
+    public double getPourcentage() {
+        return pourcentage;
+    }
 
-//     public void setSeuil(double seuil) {
-//         this.seuil = seuil;
-//     }
-//     public double getN() {
-//         return N;
-//     }
-//     public double getPercentage() {
-//         return percentage;
-//     }
-//     publi
+    public void setPourcentage(double pourcentage) {
+        this.pourcentage = pourcentage;
+    }
+
+    public int getNombrePremiers() {
+        return nombrePremiers;
+    }
+
+    public void setNombrePremiers(int nombrePremiers) {
+        this.nombrePremiers = nombrePremiers;
+    }
+
+    public List<String> getTypesCouple() {
+        return typesCouple;
+    }
+
+    public void setTypesCouple(List<String> typesCouple) {
+        this.typesCouple = typesCouple;
+    }
+
+    public void ajouterTypeCouple(String type) {
+        if (!this.typesCouple.contains(type)) {
+            this.typesCouple.add(type);
+        }
+    }
 }
 
