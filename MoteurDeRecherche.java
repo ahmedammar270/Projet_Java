@@ -9,9 +9,6 @@ public class MoteurDeRecherche {
     private Configuration configuration;
     private LivrerResultat livreur;
 
-    public MoteurDeRecherche() {
-        this.listePretraiteurs = new ArrayList<>();
-        this.configuration = new Configuration();
         this.livreur = new LivrerResultat();
     }
 
