@@ -1,14 +1,35 @@
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Comparator;
+
+import comparateurs.ComparateurDeMots;
+import nom.Couple;
+import nom.Nom;
+import pretraiteurs.DecomposeurSylabe;
+import pretraiteurs.Pretraiteur;
+import pretraiteurs.SupprimerAccents;
+import pretraiteurs.SupprimerEspaces;
+import pretraiteurs.SupprimerPonctuation;
+import pretraiteurs.SupprimerPrefixes;
+import pretraiteurs.TransformerEnMinuscule;
+import pretraiteurs.Trimer;
+import pretraiteurs.decouperNom;
+import selecteurs.SelecteurMatching;
+import selecteurs.SelecteurNPremiers;
 
 public class MoteurDeRecherche {
-
+    
     private List<Pretraiteur> listePretraiteurs;
     private GenerateurDeCandidats generateur;
     private SelecteurMatching selecteur;
     private Configuration configuration;
     private LivrerResultat livreur;
 
+    public MoteurDeRecherche() {
+        this.listePretraiteurs = new ArrayList<>();
+        this.configuration = new Configuration();
         this.livreur = new LivrerResultat();
     }
 
@@ -18,93 +39,47 @@ public class MoteurDeRecherche {
         this.selecteur = selecteur;
     }
 
-    public List<Couple> rechercher(List<Nom> liste1, List<Nom> liste2) {
+    private HashMap<Nom, List<Nom>> appliquerGenerateurDeCondidats(List<Nom> liste1 , List<Nom> liste2 ){
         if (liste1 == null || liste2 == null) {
-            System.out.println("Erreur: les listes ne peuvent pas être null");
-            return new ArrayList<>();
+            return new HashMap<>();
         }
+        return (new GenerateurParCaracteresSansIndex()).genererCandidat(liste1, liste2);
+    }
 
-        if (generateur == null) {
-            System.out.println("Erreur: aucun comparateur configuré");
-            return new ArrayList<>();
+    private double appliquerComparateurDeNoms(Nom nom1, Nom nom2) {
+        return new ComparateurDeMots().comparer(nom1, nom2);
+    }
+
+    private List<Couple> appliquerSelecteurMatching(List<Couple> couples, int n) {
+        return new SelecteurNPremiers(n).selectionner(couples);
+    }
+
+    private void appliquerLivraison(List<Couple> couples) {
+        new LivrerResultat().livrerResultat(couples);
+    }
+
+    public List<Couple> rechercher(List<Nom> liste1 , List<Nom> liste2)  {
+        List<Couple> couples = new ArrayList<>();
+        HashMap<Nom, List<Nom>> candidats = appliquerGenerateurDeCondidats(liste1, liste2);
+
+        for (Nom nom1 : liste1) {
+            appliquerPretraitement(nom1);
+            appliquerDecomposition(nom1);
         }
-
-        SelecteurMatching selecteurEffectif = this.selecteur;
-        if (selecteurEffectif == null) {
-            System.out.println("Aucun sélecteur défini, utilisation du sélecteur simple par défaut.");
-            selecteurEffectif = new SelecteurSimple();
-        }
-
-        System.out.println("Démarrage du moteur de recherche...");
-        System.out.println("Nombre de noms dans liste 1 : " + liste1.size());
-        System.out.println("Nombre de noms dans liste 2 : " + liste2.size());
-
-        List<Nom> liste1Traitee = appliquerPretraitement(liste1);
-        List<Nom> liste2Traitee = appliquerPretraitement(liste2);
-
-        List<Couple> couples = generateur.generer(liste1Traitee, liste2Traitee);
-
-        for (Couple c : couples) {
-            int idx1 = liste1Traitee.indexOf(c.getNom1());
-            int idx2 = liste2Traitee.indexOf(c.getNom2());
-            if (idx1 >= 0 && idx2 >= 0) {
-                c.setNom1(liste1.get(idx1));
-                c.setNom2(liste2.get(idx2));
+        for (Map.Entry<Nom, List<Nom>> entry : candidats.entrySet()) {
+            Nom nom1 = entry.getKey();
+            List<Nom> candidatsPourNom1 = entry.getValue();
+            for (Nom candidat : candidatsPourNom1) {
+                appliquerPretraitement(candidat);
+                appliquerDecomposition(candidat);
+                double score = appliquerComparateurDeNoms(nom1, candidat);
+                couples.add(new Couple(nom1, candidat, score));
             }
         }
 
-        System.out.println("Nombre de couples générés : " + couples.size());
-
-        List<Couple> resultats = selecteurEffectif.selectionner(couples);
-        System.out.println("Nombre de résultats après sélection : " + resultats.size());
-
-        return resultats;
+        couples.sort(Comparator.comparingDouble(Couple::getScore).reversed());
+        return couples;
     }
-
-    private List<Nom> appliquerPretraitement(List<Nom> liste) {
-        List<Nom> resultat = new ArrayList<>();
-        for (Nom nom : liste) {
-            Nom nomTraite = nom;
-            for (Pretraiteur pretraiteur : listePretraiteurs) {
-                pretraiteur.pretraiter(nomTraite);
-            }
-            resultat.add(nomTraite);
-        }
-        return resultat;
-    }
-
-    public void ajouterPretraiteur(Pretraiteur pretraiteur) {
-        if (pretraiteur == null) return;
-
-        boolean dejaPresent = listePretraiteurs.stream()
-                .anyMatch(p -> p.getClass().equals(pretraiteur.getClass()));
-
-        if (!dejaPresent) {
-            listePretraiteurs.add(pretraiteur);
-        }
-    }
-
-    public void supprimerPretraiteur(Pretraiteur pretraiteur) {
-        listePretraiteurs.remove(pretraiteur);
-    }
-
-    public void clearPretraiteurs() {
-        listePretraiteurs.clear();
-    }
-
-    public void rechercherEtLivrer(List<Nom> liste1, List<Nom> liste2) {
-        List<Couple> resultats = rechercher(liste1, liste2);
-        livreur.livrerResultat(resultats);
-    }
-
-    public List<Pretraiteur> getListePretraiteurs() { return listePretraiteurs; }
-    public void setGenerateur(GenerateurDeCandidats generateur) { this.generateur = generateur; }
-    public GenerateurDeCandidats getGenerateur() { return generateur; }
-    public void setSelecteur(SelecteurMatching selecteur) { this.selecteur = selecteur; }
-    public SelecteurMatching getSelecteur() { return selecteur; }
-    public void setConfiguration(Configuration configuration) { this.configuration = configuration; }
-    public Configuration getConfiguration() { return configuration; }
-    public void setLivreur(LivrerResultat livreur) { this.livreur = livreur; }
-    public LivrerResultat getLivreur() { return livreur; }
 }
+
 
