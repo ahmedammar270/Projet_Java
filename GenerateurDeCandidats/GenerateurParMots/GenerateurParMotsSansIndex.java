@@ -2,27 +2,27 @@ package GenerateurDeCandidats.GenerateurParMots;
 
 import java.util.List;
 import java.util.ArrayList;
+import nom.Nom;
+import nom.Couple;
 
 public class GenerateurParMotsSansIndex extends GenerateurParMots {
 
     @Override
-    public List<String[]> genererCouples(List<String> listeNoms) {
-        List<String[]> couples = new ArrayList<>();
+    public List<Couple> genererCouples(List<Nom> liste1, List<Nom> liste2) {
+        List<Couple> couples = new ArrayList<>();
 
-        if (listeNoms == null || listeNoms.isEmpty()) {
+        if (liste1 == null || liste2 == null || liste1.isEmpty() || liste2.isEmpty()) {
             return couples;
         }
 
-        for (int i = 0; i < listeNoms.size(); i++) {
-            for (int j = i + 1; j < listeNoms.size(); j++) {
-                String nom1 = listeNoms.get(i);
-                String nom2 = listeNoms.get(j);
+        for (Nom nom1 : liste1) {
+            for (Nom nom2 : liste2) {
+                if (nom1 == null || nom2 == null) {
+                    continue;
+                }
 
                 if (aUnMotEnCommun(nom1, nom2)) {
-                    String[] couple = new String[2];
-                    couple[0] = nom1;
-                    couple[1] = nom2;
-                    couples.add(couple);
+                    couples.add(new Couple(nom1, nom2, 0.0));
                 }
             }
         }
@@ -30,9 +30,20 @@ public class GenerateurParMotsSansIndex extends GenerateurParMots {
         return couples;
     }
 
-    private boolean aUnMotEnCommun(String nom1, String nom2) {
-        List<String> mots1 = decomposerEnMots(nom1);
-        List<String> mots2 = decomposerEnMots(nom2);
+    private boolean aUnMotEnCommun(Nom nom1, Nom nom2) {
+        if (nom1 == null || nom2 == null) {
+            return false;
+        }
+
+        String texte1 = nom1.getNomComplet();
+        String texte2 = nom2.getNomComplet();
+
+        if (texte1 == null || texte2 == null || texte1.isEmpty() || texte2.isEmpty()) {
+            return false;
+        }
+
+        List<String> mots1 = decomposerEnMots(texte1);
+        List<String> mots2 = decomposerEnMots(texte2);
 
         for (String mot1 : mots1) {
             for (String mot2 : mots2) {
@@ -45,7 +56,7 @@ public class GenerateurParMotsSansIndex extends GenerateurParMots {
         return false;
     }
 
-    public void afficherStatistiques(List<String[]> couples) {
+    public void afficherStatistiques(List<Couple> couples) {
         System.out.println("=== Statistiques du générateur ===");
         System.out.println("Nombre de couples générés: " + couples.size());
     }
