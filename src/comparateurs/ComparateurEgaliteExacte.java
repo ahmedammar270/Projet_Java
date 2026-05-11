@@ -1,6 +1,5 @@
 package comparateurs;
 import nom.Nom;
-import nom.Couple;
 public class ComparateurEgaliteExacte extends ComparateurDeChaines {
     public double comparer(Nom nom1, Nom nom2) {
         String nom1Pretraite = String.join(" ", nom1.getNomPretraite());

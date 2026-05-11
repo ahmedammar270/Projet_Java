@@ -2,7 +2,6 @@ package comparateurs;
 import java.util.ArrayList;
 import java.util.List;
 import nom.Nom;
-import nom.Couple; 
 
 
 public class ComparateurDeCaracteres extends ComparateursDeNoms {
