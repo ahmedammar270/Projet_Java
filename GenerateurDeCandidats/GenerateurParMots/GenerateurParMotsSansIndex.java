@@ -2,32 +2,34 @@ package GenerateurDeCandidats.GenerateurParMots;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import nom.Nom;
-import nom.Couple;
 
-public class GenerateurParMotsSansIndex extends GenerateurParMots {
+public class GenerateurParMotsSansIndex { // Plus d'extension
 
-    @Override
-    public List<Couple> genererCouples(List<Nom> liste1, List<Nom> liste2) {
-        List<Couple> couples = new ArrayList<>();
+    public Map<Nom, List<Nom>> genererCorrespondances(List<Nom> listeClient, List<Nom> listeNoire) {
+        Map<Nom, List<Nom>> resultat = new HashMap<>();
 
-        if (liste1 == null || liste2 == null || liste1.isEmpty() || liste2.isEmpty()) {
-            return couples;
+        if (listeClient == null || listeNoire == null || listeClient.isEmpty() || listeNoire.isEmpty()) {
+            return resultat;
         }
 
-        for (Nom nom1 : liste1) {
-            for (Nom nom2 : liste2) {
-                if (nom1 == null || nom2 == null) {
-                    continue;
+        for (Nom client : listeClient) {
+            if (client == null) continue;
+            List<Nom> noirsCorrespondants = new ArrayList<>();
+            for (Nom noir : listeNoire) {
+                if (noir == null) continue;
+                if (aUnMotEnCommun(client, noir)) {
+                    noirsCorrespondants.add(noir);
                 }
-
-                if (aUnMotEnCommun(nom1, nom2)) {
-                    couples.add(new Couple(nom1, nom2, 0.0));
-                }
+            }
+            if (!noirsCorrespondants.isEmpty()) {
+                resultat.put(client, noirsCorrespondants);
             }
         }
 
-        return couples;
+        return resultat;
     }
 
     private boolean aUnMotEnCommun(Nom nom1, Nom nom2) {
@@ -56,8 +58,15 @@ public class GenerateurParMotsSansIndex extends GenerateurParMots {
         return false;
     }
 
-    public void afficherStatistiques(List<Couple> couples) {
-        System.out.println("=== Statistiques du générateur ===");
-        System.out.println("Nombre de couples générés: " + couples.size());
+    private List<String> decomposerEnMots(String texte) {
+        List<String> mots = new ArrayList<>();
+        // Découpage simple par espaces et ponctuation
+        String[] parties = texte.split("[\\s,;:!?.-]+");
+        for (String partie : parties) {
+            if (!partie.isEmpty()) {
+                mots.add(partie);
+            }
+        }
+        return mots;
     }
 }
