@@ -1,15 +1,37 @@
 package comparateurs;
+import java.util.List;
+
 import nom.Nom;
 public class ComparateurJaroWinkler extends ComparateurDeChaines  {
         public double comparer(Nom nom1, Nom nom2) {
-        String nom1Pretraite = String.join(" ", nom1.getNomPretraite());
-        String nom2Pretraite = String.join(" ", nom2.getNomPretraite());
+            List<String> liste1 = nom1.getNomPretraite();
+            List<String> liste2 = nom2.getNomPretraite();
+   
+            if (liste1.isEmpty() || liste2.isEmpty()) {
+            return 0.0;
+            }
+
+            double sommeScoresMaximaux = 0.0;
+
+            for (String mot1 : liste1) {
+                double scoreMaxPourCeMot = 0.0;
+
+
+                for (String mot2 : liste2) {
+                    double scoreActuel = jaroWinkler(mot1, mot2);
         
-            
-            double score = jaroWinkler(nom1Pretraite, nom2Pretraite);
-            
-            return score;
+
+                    if (scoreActuel > scoreMaxPourCeMot) {
+                        scoreMaxPourCeMot = scoreActuel;
+                    }
+                }
+
+                sommeScoresMaximaux += scoreMaxPourCeMot;
+            }
+
+            return sommeScoresMaximaux / liste1.size();
         }
+            
         
         private double jaroWinkler(String s1, String s2) {
             // Implémentation de l'algorithme Jaro-Winkler

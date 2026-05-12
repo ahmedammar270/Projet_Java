@@ -18,6 +18,7 @@ public class Main {
             System.err.println("Erreur lors de la lecture du fichier CSV : " + e.getMessage());
             return;
         }
+        
 
         List<Nom> liste2 = new ArrayList<>();
         liste2.add(new Nom("Jean", "3"));
