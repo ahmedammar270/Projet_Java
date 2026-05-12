@@ -1,2 +1,0 @@
-package GenerateurDeCandidats.GenerateurParSyllabes;
-public class GenerateurParSyllabesAvecTri extends GenerateurParSyllabes {}

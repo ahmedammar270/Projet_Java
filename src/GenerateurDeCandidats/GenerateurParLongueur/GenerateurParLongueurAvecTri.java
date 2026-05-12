@@ -1,5 +1,63 @@
 package GenerateurDeCandidats.GenerateurParLongueur;
-
-public class GenerateurParLongueurAvecTri {
+import GenerateurDeCandidats.GenerateurDeCandidats;
+import java.util.List;  
+import nom.Nom;
+import java.util.HashMap;
+import java.util.ArrayList;
+import configuration.Configuration;
+import java.util.Collections;
     
+
+
+public class GenerateurParLongueurAvecTri implements GenerateurDeCandidats {
+    public HashMap<Nom, List<Nom>> genererCandidats(List<Nom> listeClients, List<Nom> listeNoir) {
+        Configuration config = new Configuration();
+        HashMap<Nom, List<Nom>> listeNoirOptimisee = new HashMap<>();
+        List<Nom> listeNoirTriee = new ArrayList<>(listeNoir);
+        listeNoirTriee.sort((n1, n2) ->n1.getName().length()-n2.getName().length());
+        for (Nom nomClient : listeClients) {
+            int longNomClient = nomClient.getName().length();
+            List<Nom> nomsPotentiels = new ArrayList<>();
+
+            if (config.toleranceGenerateurestEntiere()) {
+                int tolerance = config.getToleranceEntiere();
+                int limiteInferieure = longNomClient - tolerance;
+                int limiteSuperieure = longNomClient + tolerance;
+                for (Nom nomNoir : listeNoirTriee) {
+                    int longueurNoir = nomNoir.getName().length();
+                    if (longueurNoir > limiteSuperieure) {
+                        break;
+                    }
+                    if (longueurNoir >= limiteInferieure) {
+                        nomsPotentiels.add(nomNoir);
+                    }
+                }
+            }
+            if (config.toleranceGenerateurestPercentage()) {
+                double tolerance = config.getTolerancePourcentage();
+                double toleranceLongueur = longNomClient * tolerance;
+                int limiteInferieure = (int) Math.round(longNomClient - toleranceLongueur);
+                int limiteSuperieure = (int) Math.round(longNomClient + toleranceLongueur);
+                for (Nom nomNoir : listeNoirTriee) {
+                    int longueurNoir = nomNoir.getName().length();
+                    if (longueurNoir > limiteSuperieure) {
+                        break;
+                    }
+                    if (longueurNoir >= limiteInferieure) {
+                        nomsPotentiels.add(nomNoir);
+                    }
+                }
+            }
+
+            if (!nomsPotentiels.isEmpty()) {
+                if (!listeNoirOptimisee.containsKey(nomClient)) {
+                    listeNoirOptimisee.put(nomClient, new ArrayList<>());
+                }
+                listeNoirOptimisee.get(nomClient).addAll(nomsPotentiels);
+            }
+        }   
+        return listeNoirOptimisee;
+    }
 }
+
+                    
