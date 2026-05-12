@@ -1,10 +1,14 @@
 import java.util.List;
 import java.util.Map;
+
+import GenerateurDeCandidats.GenerateurParLongueur.GenerateurParLongueurAvecIndex;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 import comparateurs.ComparateurDeMots;
+import comparateurs.ComparateurJaroWinkler;
 import comparateurs.ComparateurLevenshtein;
 import configuration.Configuration;
 import nom.Couple;
@@ -53,11 +57,11 @@ public class MoteurDeRecherche {
         if (liste1 == null || liste2 == null) {
             return new HashMap<>();
         }
-        return (new GenerateurParCaracteresSansIndex()).genererCandidat(liste1, liste2);
+        return (new GenerateurParLongueurAvecIndex()).genererCandidat(liste1, liste2);
     }
 
     private double appliquerComparateurDeNoms(Nom nom1, Nom nom2) {
-        return new ComparateurLevenshtein().comparer(nom1, nom2);
+        return new ComparateurJaroWinkler().comparer(nom1, nom2);
     }
 
     private List<Couple> appliquerSelecteurMatching(List<Couple> couples, int n) {
@@ -68,11 +72,7 @@ public class MoteurDeRecherche {
         new LivrerResultat().livrerResultat(couples);
     }
 
-<<<<<<< HEAD
     public List<Couple> rechercher(List<Nom> liste1, List<Nom> liste2) {
-=======
-    public void  rechercher(List<Nom> liste1 , List<Nom> liste2)  {
->>>>>>> a7054270f545b5014e7f5df97e415b2e1d1e2125
         List<Couple> couples = new ArrayList<>();
         for (Nom nom1 : liste1) {
             appliquerPretraitement(nom1);
