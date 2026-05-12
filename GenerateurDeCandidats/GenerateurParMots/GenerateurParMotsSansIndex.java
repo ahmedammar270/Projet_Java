@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.HashMap;
 import nom.Nom;
 
-public class GenerateurParMotsSansIndex { // Plus d'extension
+public class GenerateurParMotsSansIndex {
 
     public Map<Nom, List<Nom>> genererCorrespondances(List<Nom> listeClient, List<Nom> listeNoire) {
         Map<Nom, List<Nom>> resultat = new HashMap<>();
@@ -33,19 +33,15 @@ public class GenerateurParMotsSansIndex { // Plus d'extension
     }
 
     private boolean aUnMotEnCommun(Nom nom1, Nom nom2) {
-        if (nom1 == null || nom2 == null) {
+        if (nom1 == null || nom2 == null) return false;
+
+        
+        List<String> mots1 = nom1.getNomPretraite();
+        List<String> mots2 = nom2.getNomPretraite();
+
+        if (mots1 == null || mots2 == null || mots1.isEmpty() || mots2.isEmpty()) {
             return false;
         }
-
-        String texte1 = nom1.getNomComplet();
-        String texte2 = nom2.getNomComplet();
-
-        if (texte1 == null || texte2 == null || texte1.isEmpty() || texte2.isEmpty()) {
-            return false;
-        }
-
-        List<String> mots1 = decomposerEnMots(texte1);
-        List<String> mots2 = decomposerEnMots(texte2);
 
         for (String mot1 : mots1) {
             for (String mot2 : mots2) {
@@ -54,19 +50,6 @@ public class GenerateurParMotsSansIndex { // Plus d'extension
                 }
             }
         }
-
         return false;
-    }
-
-    private List<String> decomposerEnMots(String texte) {
-        List<String> mots = new ArrayList<>();
-        // Découpage simple par espaces et ponctuation
-        String[] parties = texte.split("[\\s,;:!?.-]+");
-        for (String partie : parties) {
-            if (!partie.isEmpty()) {
-                mots.add(partie);
-            }
-        }
-        return mots;
     }
 }
