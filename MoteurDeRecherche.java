@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import comparateurs.ComparateurDeMots;
+import comparateurs.ComparateurLevenshtein;
 import nom.Couple;
 import nom.Nom;
 import pretraiteurs.DecomposeurSylabe;
@@ -56,7 +57,7 @@ public class MoteurDeRecherche {
     }
 
     private double appliquerComparateurDeNoms(Nom nom1, Nom nom2) {
-        return new ComparateurDeMots().comparer(nom1, nom2);
+        return new ComparateurLevenshtein().comparer(nom1, nom2);
     }
 
     private List<Couple> appliquerSelecteurMatching(List<Couple> couples, int n) {
