@@ -7,7 +7,7 @@ public class Configuration {
 
     private double seuil;
     private double pourcentage;
-    private int nombrePremiers;
+    private int nPremiers;
     private List<String> typesDeCouples;
     private double toleranceGenerateur;
     private boolean estEntiere;
@@ -17,7 +17,7 @@ public class Configuration {
     public Configuration() {
         seuil = 0.8;
         pourcentage = 50.0;
-        nombrePremiers = 10;
+        nPremiers = 10;
         typesDeCouples = new ArrayList<>();
         toleranceGenerateur = 0.5;
         estEntiere = true;
@@ -59,12 +59,12 @@ public class Configuration {
         pourcentage = nouvelleValeur;
     }
 
-    public int getNombrePremiers() {
-        return nombrePremiers;
+    public int getNPremiers() {
+        return nPremiers;
     }
 
     public void setNombrePremiers(int nouvelleValeur) {
-        nombrePremiers = nouvelleValeur;
+        nPremiers = nouvelleValeur;
     }
 
     public List<String> getTypesDeCouples() {
@@ -111,7 +111,7 @@ public class Configuration {
         System.out.println("=== Paramètres actuels ===");
         System.out.println("Seuil: " + seuil);
         System.out.println("Pourcentage: " + pourcentage + "%");
-        System.out.println("Nombre résultats: " + nombrePremiers);
+        System.out.println("Nombre résultats: " + nPremiers);
         System.out.println("Tolérance générateur: " + (toleranceGenerateur * 100) + "%");
         System.out.println("Types de couples: " + typesDeCouples);
     }
