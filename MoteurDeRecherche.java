@@ -69,7 +69,7 @@ public class MoteurDeRecherche {
         new LivrerResultat().livrerResultat(couples);
     }
 
-    public List<Couple> rechercher(List<Nom> liste1 , List<Nom> liste2)  {
+    public void  rechercher(List<Nom> liste1 , List<Nom> liste2)  {
         List<Couple> couples = new ArrayList<>();
         for (Nom nom1 : liste1) {
             appliquerPretraitement(nom1);
@@ -95,8 +95,9 @@ public class MoteurDeRecherche {
         }
 
         couples.sort(Comparator.comparingDouble(Couple::getScore).reversed());
-        appliquerSelecteurMatching(couples, new Configuration().getNPremiers());
-        return couples;
+        List<Couple> resultat = appliquerSelecteurMatching(couples, new Configuration().getNPremiers());
+        appliquerLivraison(resultat);
+
     }
 }
 
