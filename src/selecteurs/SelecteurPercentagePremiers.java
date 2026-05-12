@@ -2,7 +2,7 @@ package selecteurs;
 import java.util.List;
 import java.util.ArrayList;
 import nom.Couple;
-import Configuration;
+import configuration.Configuration;
 
 public class SelecteurPercentagePremiers implements SelecteurMatching {
 
@@ -26,6 +26,6 @@ public class SelecteurPercentagePremiers implements SelecteurMatching {
             }
         }
         return resultats;
-    
+    }
 }
 

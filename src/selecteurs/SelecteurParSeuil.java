@@ -2,7 +2,7 @@ package selecteurs;
 import java.util.List;
 import java.util.ArrayList;
 import nom.Couple;
-import Configuration;
+import configuration.Configuration;
 
 public class SelecteurParSeuil implements SelecteurMatching {
     private double seuil;

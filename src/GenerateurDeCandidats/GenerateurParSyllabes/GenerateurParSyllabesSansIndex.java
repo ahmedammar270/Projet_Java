@@ -23,8 +23,8 @@ public class GenerateurParSyllabesSansIndex implements GenerateurDeCandidats {
             int nbSyllabesClient = syllabesClient.size();
             for (Nom nomNoir : listeNoir) {
                 decomposeur.pretraiter(nomNoir);
-                List<String> syllabesPep = nomNoir.getNomPretraite();
-                int communes = syllabesCommunes(syllabesClient, syllabesPep);
+                List<String> syllabesNomNoir = nomNoir.getNomPretraite();
+                int communes = syllabesCommunes(syllabesClient, syllabesNomNoir);
                 boolean accepte = false;
                 if (config.toleranceGenerateurestEntiere()) {
                     int tolerance = config.getToleranceEntiere();

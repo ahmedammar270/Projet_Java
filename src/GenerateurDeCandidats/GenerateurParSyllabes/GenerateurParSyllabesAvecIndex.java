@@ -14,8 +14,11 @@ public class GenerateurParSyllabesAvecIndex implements GenerateurDeCandidats {
         HashMap<Integer, List<Nom>> listeIndexee = new HashMap<>();
         for (Nom nomNoir : listeNoir) {
             decomposeur.pretraiter(nomNoir);
-            int nbSyllabesPep = nomNoir.getNomPretraite().size();
-            listeIndexee.computeIfAbsent(nbSyllabesPep, k -> new ArrayList<>()).add(nomNoir);
+            int nbSyllabesNomNoir = nomNoir.getNomPretraite().size();
+            if (!listeIndexee.containsKey(nbSyllabesNomNoir)) {
+                listeIndexee.put(nbSyllabesNomNoir, new ArrayList<>());
+            }
+            listeIndexee.get(nbSyllabesNomNoir).add(nomNoir);
         }
         for (Nom client : listeClients) {
             decomposeur.pretraiter(client);
@@ -33,7 +36,7 @@ public class GenerateurParSyllabesAvecIndex implements GenerateurDeCandidats {
                 limiteInferieure = (int) Math.round(nbSyllabesClient - ecart);
                 limiteSuperieure = (int) Math.round(nbSyllabesClient + ecart);
             }
-            List<Nom> nompot = new ArrayList<>();
+            List<Nom> nomPotentiels = new ArrayList<>();
             for (int i = Math.max(limiteInferieure, 0); i <= limiteSuperieure; i++) {
                 List<Nom> liste = listeIndexee.get(i);
                 if (liste == null) {
@@ -55,12 +58,12 @@ public class GenerateurParSyllabesAvecIndex implements GenerateurDeCandidats {
                         }
                     }
                     if (accepte) {
-                        candidats.add(nomNoir);
+                        nomPotentiels.add(nomNoir);
                     }
                 }
             }
-            if (!candidats.isEmpty()) {
-                listeNoirOptimisee.put(client, candidats);
+            if (!nomPotentiels.isEmpty()) {
+                listeNoirOptimisee.put(client, nomPotentiels);
             }
         }
         return listeNoirOptimisee;

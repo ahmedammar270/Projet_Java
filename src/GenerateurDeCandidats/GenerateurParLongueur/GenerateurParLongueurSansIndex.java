@@ -13,8 +13,8 @@ public class GenerateurParLongueurSansIndex implements GenerateurDeCandidats{
             for(Nom nomClient: listeClients){
                 for(Nom nomNoir: listeNoir){
                     boolean nomNoirAccepte=false;
-                    int longNomClient=nomClient.getName().length();
-                    int longNomNoir=nomNoir.getName().length();
+                    int longNomClient=nomClient.getNomPretraite().get(0).length();
+                    int longNomNoir=nomNoir.getNomPretraite().get(0).length();
                     int diff=Math.abs(longNomClient-longNomNoir);
                     if (config.toleranceGenerateurestEntiere()){
                         int tolerance=config.getToleranceEntiere();

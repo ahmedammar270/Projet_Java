@@ -13,14 +13,14 @@ public class GenerateurParLongueurAvecIndex implements GenerateurDeCandidats {
         HashMap<Nom, List<Nom>> listeNoirOptimisee = new HashMap<>();
         HashMap<Integer, List<Nom>> listeIndexee = new HashMap<>();
         for (Nom nomNoir : listeNoir) {
-            int longueur = nomNoir.getName().length();
+            int longueur = nomNoir.getNomPretraite().get(0).length();
             if (!listeIndexee.containsKey(longueur)) {
                 listeIndexee.put(longueur, new ArrayList<>());
             }
             listeIndexee.get(longueur).add(nomNoir);
         }
         for (Nom nomClient : listeClients) {
-            int longNomClient = nomClient.getName().length();
+            int longNomClient = nomClient.getNomPretraite().get(0).length();
             List<Nom> nomsPotentiels = new ArrayList<>();
 
             if (config.toleranceGenerateurestEntiere()) {

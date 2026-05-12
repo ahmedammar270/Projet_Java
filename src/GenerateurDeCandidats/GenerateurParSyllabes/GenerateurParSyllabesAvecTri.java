@@ -1,14 +1,10 @@
 package GenerateurDeCandidats.GenerateurParSyllabes;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collections;
-import java.util.Comparator;
-
 import configuration.Configuration;
 import nom.Nom;
-
 import pretraiteurs.DecomposeurSylabe;
 import GenerateurDeCandidats.GenerateurDeCandidats;
 
@@ -23,7 +19,7 @@ public class GenerateurParSyllabesAvecTri implements GenerateurDeCandidats {
         }
         Collections.sort(listeNoir,(n1, n2) ->nbSyllabes(n1)- nbSyllabes(n2));
         for (Nom client : listeClients) {
-            List<Nom> candidats = new ArrayList<>();
+            List<Nom> nomsPotentiels = new ArrayList<>();
             decomposeur.pretraiter(client);
             List<String> syllabesClient = client.getNomPretraite();
             int nbSyllabesClient = syllabesClient.size();
@@ -33,22 +29,23 @@ public class GenerateurParSyllabesAvecTri implements GenerateurDeCandidats {
                 int tolerance = config.getToleranceEntiere();
                 limiteInferieure = nbSyllabesClient - tolerance;
                 limiteSuperieure = nbSyllabesClient + tolerance;
-            } else {
+            } 
+            else {
                 double tolerance = config.getTolerancePourcentage();
                 double ecart = nbSyllabesClient * tolerance;
                 limiteInferieure = (int) Math.round(nbSyllabesClient - ecart);
                 limiteSuperieure = (int) Math.round(nbSyllabesClient + ecart);
             }
 
-            for (Nom pep : listeNoir) {
-                List<String> syllabesPep = pep.getNomPretraite();
-                int nbSyllabesPep = syllabesPep.size();
+            for (Nom nomNoir : listeNoir) {
+                List<String> syllabesNomNoir = nomNoir.getNomPretraite();
+                int nbSyllabesNomNoir = syllabesNomNoir.size();
 
-                if (nbSyllabesPep > limiteSuperieure) {
+                if (nbSyllabesNomNoir > limiteSuperieure) {
                     break;
                 }
-                if (nbSyllabesPep >= limiteInferieure && nbSyllabesPep <= limiteSuperieure) {
-                    int communes = syllabesCommunes(syllabesClient, syllabesPep);
+                if (nbSyllabesNomNoir >= limiteInferieure) {
+                    int communes = syllabesCommunes(syllabesClient, syllabesNomNoir);
                     boolean accepte = false;
                     if (config.toleranceGenerateurestEntiere()) {
                         if (communes >= config.getToleranceEntiere()) {
@@ -61,12 +58,12 @@ public class GenerateurParSyllabesAvecTri implements GenerateurDeCandidats {
                         }
                     }
                     if (accepte) {
-                        candidats.add(pep);
+                        nomsPotentiels.add(nomNoir);
                     }
                 }
             }
-            if (!candidats.isEmpty()) {
-                listeNoirOptimisee.put(client, candidats);
+            if (!nomsPotentiels.isEmpty()) {
+                listeNoirOptimisee.put(client, nomsPotentiels);
             }
         }
         return listeNoirOptimisee;

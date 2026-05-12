@@ -2,13 +2,13 @@ package selecteurs;
 import java.util.List;
 import java.util.ArrayList;
 import nom.Couple;
-import Configuration;
+import configuration.Configuration;
 
 public class SelecteurNPremiers implements SelecteurMatching {
     private int n;
 
     public SelecteurNPremiers(Configuration config) {
-        this.n = config.getN();
+        this.n = config.getNombrePremiers();
     }
     public List<Couple> selectionner(List<Couple> couples) {
         List<Couple> trier = new ArrayList<>(couples);

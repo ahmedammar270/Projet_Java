@@ -2,12 +2,13 @@ package GenerateurDeCandidats.GenerateurParMots;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import nom.Nom;
 import nom.Couple;
 
-public class GenerateurParMotsSansIndex extends GenerateurParMots {
+public class GenerateurParMotsSansIndex {
 
-    @Override
     public List<Couple> genererCouples(List<Nom> liste1, List<Nom> liste2) {
         List<Couple> couples = new ArrayList<>();
 
@@ -35,8 +36,8 @@ public class GenerateurParMotsSansIndex extends GenerateurParMots {
             return false;
         }
 
-        String texte1 = nom1.getNomComplet();
-        String texte2 = nom2.getNomComplet();
+        String texte1 = nom1.getName();
+        String texte2 = nom2.getName();
 
         if (texte1 == null || texte2 == null || texte1.isEmpty() || texte2.isEmpty()) {
             return false;
@@ -54,6 +55,16 @@ public class GenerateurParMotsSansIndex extends GenerateurParMots {
         }
 
         return false;
+    }
+
+    private List<String> decomposerEnMots(String texte) {
+        if (texte == null || texte.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return Arrays.stream(texte.trim().split("\\s+"))
+                .map(mot -> mot.replaceAll("[^\\p{L}0-9]", ""))
+                .filter(mot -> !mot.isEmpty())
+                .collect(Collectors.toList());
     }
 
     public void afficherStatistiques(List<Couple> couples) {

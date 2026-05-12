@@ -14,9 +14,9 @@ public class GenerateurParLongueurAvecTri implements GenerateurDeCandidats {
         Configuration config = new Configuration();
         HashMap<Nom, List<Nom>> listeNoirOptimisee = new HashMap<>();
         List<Nom> listeNoirTriee = new ArrayList<>(listeNoir);
-        listeNoirTriee.sort((n1, n2) ->n1.getName().length()-n2.getName().length());
+        listeNoirTriee.sort((n1, n2) ->n1.getNomPretraite().get(0).length()-n2.getNomPretraite().get(0).length());
         for (Nom nomClient : listeClients) {
-            int longNomClient = nomClient.getName().length();
+            int longNomClient = nomClient.getNomPretraite().get(0).length();
             List<Nom> nomsPotentiels = new ArrayList<>();
 
             if (config.toleranceGenerateurestEntiere()) {
@@ -24,7 +24,7 @@ public class GenerateurParLongueurAvecTri implements GenerateurDeCandidats {
                 int limiteInferieure = longNomClient - tolerance;
                 int limiteSuperieure = longNomClient + tolerance;
                 for (Nom nomNoir : listeNoirTriee) {
-                    int longueurNoir = nomNoir.getName().length();
+                    int longueurNoir = nomNoir.getNomPretraite().get(0).length();
                     if (longueurNoir > limiteSuperieure) {
                         break;
                     }
@@ -39,7 +39,7 @@ public class GenerateurParLongueurAvecTri implements GenerateurDeCandidats {
                 int limiteInferieure = (int) Math.round(longNomClient - toleranceLongueur);
                 int limiteSuperieure = (int) Math.round(longNomClient + toleranceLongueur);
                 for (Nom nomNoir : listeNoirTriee) {
-                    int longueurNoir = nomNoir.getName().length();
+                    int longueurNoir = nomNoir.getNomPretraite().get(0).length();
                     if (longueurNoir > limiteSuperieure) {
                         break;
                     }
