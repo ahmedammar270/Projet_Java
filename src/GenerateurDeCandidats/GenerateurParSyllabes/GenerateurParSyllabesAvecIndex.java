@@ -1,5 +1,4 @@
 package GenerateurDeCandidats.GenerateurParSyllabes;
-
 import GenerateurDeCandidats.GenerateurDeCandidats;
 import configuration.Configuration;
 import nom.Nom;
@@ -7,7 +6,6 @@ import pretraiteurs.DecomposeurSylabe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 public class GenerateurParSyllabesAvecIndex implements GenerateurDeCandidats {
     public HashMap<Nom, List<Nom>> genererCandidats(List<Nom> listeClients, List<Nom> listeNoir) {
         Configuration config = new Configuration();
