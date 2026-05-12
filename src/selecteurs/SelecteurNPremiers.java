@@ -8,7 +8,7 @@ public class SelecteurNPremiers implements SelecteurMatching {
     private int n;
 
     public SelecteurNPremiers(Configuration config) {
-        this.n = config.getNombrePremiers();
+        this.n = config.getNPremiers();
     }
     public List<Couple> selectionner(List<Couple> couples) {
         List<Couple> trier = new ArrayList<>(couples);

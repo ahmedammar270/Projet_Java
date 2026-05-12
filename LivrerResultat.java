@@ -1,4 +1,5 @@
 import java.util.List;
+import nom.Couple;
 
 public class LivrerResultat {
 

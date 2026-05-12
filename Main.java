@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nom.Nom;
+import nom.Couple;
+import pretraiteurs.TransformerEnMinuscule;
+import pretraiteurs.SupprimerAccents;
+import comparateurs.ComparateurNGram;
+import comparateurs.ComparateurDeChaines;
 
 public class Main {
     public static void main(String[] args) {
