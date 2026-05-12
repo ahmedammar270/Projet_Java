@@ -72,16 +72,21 @@ public class MoteurDeRecherche {
         List<Couple> couples = new ArrayList<>();
         for (Nom nom1 : liste1) {
             appliquerPretraitement(nom1);
-            appliquerDecomposition(nom1);
+        }
+        for (Nom nom2 : liste2) {
+            appliquerPretraitement(nom2);
         }
         HashMap<Nom, List<Nom>> candidats = appliquerGenerateurDeCondidats(liste1, liste2);
+
+        for (Nom nom1 : liste1) {
+            appliquerDecomposition(nom1);
+        }
 
         
         for (Map.Entry<Nom, List<Nom>> entry : candidats.entrySet()) {
             Nom nom1 = entry.getKey();
             List<Nom> candidatsPourNom1 = entry.getValue();
             for (Nom candidat : candidatsPourNom1) {
-                appliquerPretraitement(candidat);
                 appliquerDecomposition(candidat);
                 double score = appliquerComparateurDeNoms(nom1, candidat);
                 couples.add(new Couple(nom1, candidat, score));
