@@ -2,49 +2,46 @@ package GenerateurDeCandidats.GenerateurParMots;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.HashMap;
 import nom.Nom;
-import nom.Couple;
 
 public class GenerateurParMotsSansIndex {
 
-    public List<Couple> genererCouples(List<Nom> liste1, List<Nom> liste2) {
-        List<Couple> couples = new ArrayList<>();
+    public Map<Nom, List<Nom>> genererCorrespondances(List<Nom> listeClient, List<Nom> listeNoire) {
+        Map<Nom, List<Nom>> resultat = new HashMap<>();
 
-        if (liste1 == null || liste2 == null || liste1.isEmpty() || liste2.isEmpty()) {
-            return couples;
+        if (listeClient == null || listeNoire == null || listeClient.isEmpty() || listeNoire.isEmpty()) {
+            return resultat;
         }
 
-        for (Nom nom1 : liste1) {
-            for (Nom nom2 : liste2) {
-                if (nom1 == null || nom2 == null) {
-                    continue;
+        for (Nom client : listeClient) {
+            if (client == null) continue;
+            List<Nom> noirsCorrespondants = new ArrayList<>();
+            for (Nom noir : listeNoire) {
+                if (noir == null) continue;
+                if (aUnMotEnCommun(client, noir)) {
+                    noirsCorrespondants.add(noir);
                 }
-
-                if (aUnMotEnCommun(nom1, nom2)) {
-                    couples.add(new Couple(nom1, nom2, 0.0));
-                }
+            }
+            if (!noirsCorrespondants.isEmpty()) {
+                resultat.put(client, noirsCorrespondants);
             }
         }
 
-        return couples;
+        return resultat;
     }
 
     private boolean aUnMotEnCommun(Nom nom1, Nom nom2) {
-        if (nom1 == null || nom2 == null) {
+        if (nom1 == null || nom2 == null) return false;
+
+        
+        List<String> mots1 = nom1.getNomPretraite();
+        List<String> mots2 = nom2.getNomPretraite();
+
+        if (mots1 == null || mots2 == null || mots1.isEmpty() || mots2.isEmpty()) {
             return false;
         }
-
-        String texte1 = nom1.getName();
-        String texte2 = nom2.getName();
-
-        if (texte1 == null || texte2 == null || texte1.isEmpty() || texte2.isEmpty()) {
-            return false;
-        }
-
-        List<String> mots1 = decomposerEnMots(texte1);
-        List<String> mots2 = decomposerEnMots(texte2);
 
         for (String mot1 : mots1) {
             for (String mot2 : mots2) {
@@ -53,22 +50,6 @@ public class GenerateurParMotsSansIndex {
                 }
             }
         }
-
         return false;
-    }
-
-    private List<String> decomposerEnMots(String texte) {
-        if (texte == null || texte.isEmpty()) {
-            return new ArrayList<>();
-        }
-        return Arrays.stream(texte.trim().split("\\s+"))
-                .map(mot -> mot.replaceAll("[^\\p{L}0-9]", ""))
-                .filter(mot -> !mot.isEmpty())
-                .collect(Collectors.toList());
-    }
-
-    public void afficherStatistiques(List<Couple> couples) {
-        System.out.println("=== Statistiques du générateur ===");
-        System.out.println("Nombre de couples générés: " + couples.size());
     }
 }
