@@ -29,7 +29,7 @@ public class Main {
         liste2.add(new Nom("Jean", "3"));
         liste2.add(new Nom("Pierre", "4"));
 
-        ComparateurDeChaines comparateur = new ComparateurNGram(1);
+        ComparateurDeChaines comparateur = new ComparateurNGram();
         MoteurDeRecherche moteur = new MoteurDeRecherche(comparateur);
         
         moteur.ajouterPretraiteur(new TransformerEnMinuscule());
