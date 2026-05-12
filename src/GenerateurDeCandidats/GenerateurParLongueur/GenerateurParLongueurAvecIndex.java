@@ -23,6 +23,7 @@ public class GenerateurParLongueurAvecIndex implements GenerateurDeCandidats {
             int longNomClient = nomClient.getName().length();
             List<Nom> nomsPotentiels = new ArrayList<>();
 
+<<<<<<< HEAD
             if (config.toleranceGenerateurestEntiere()) {
                 int tolerance = config.getToleranceEntiere();
                 for (int i = longNomClient - tolerance; i <= longNomClient + tolerance; i++) {
@@ -53,5 +54,10 @@ public class GenerateurParLongueurAvecIndex implements GenerateurDeCandidats {
         }
         return listeNoirOptimisee;
     }
+=======
+        
+    
+    
+>>>>>>> 46881807b88f331e68450949f3e4fcea6222ad9f
 }
 

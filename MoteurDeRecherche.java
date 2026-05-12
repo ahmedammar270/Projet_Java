@@ -69,12 +69,13 @@ public class MoteurDeRecherche {
 
     public List<Couple> rechercher(List<Nom> liste1 , List<Nom> liste2)  {
         List<Couple> couples = new ArrayList<>();
-        HashMap<Nom, List<Nom>> candidats = appliquerGenerateurDeCondidats(liste1, liste2);
-
         for (Nom nom1 : liste1) {
             appliquerPretraitement(nom1);
             appliquerDecomposition(nom1);
         }
+        HashMap<Nom, List<Nom>> candidats = appliquerGenerateurDeCondidats(liste1, liste2);
+
+        
         for (Map.Entry<Nom, List<Nom>> entry : candidats.entrySet()) {
             Nom nom1 = entry.getKey();
             List<Nom> candidatsPourNom1 = entry.getValue();
