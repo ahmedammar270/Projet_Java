@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import comparateurs.ComparateurDeMots;
 import comparateurs.ComparateurLevenshtein;
+import configuration.Configuration;
 import nom.Couple;
 import nom.Nom;
 import pretraiteurs.DecomposeurSylabe;
@@ -94,6 +95,7 @@ public class MoteurDeRecherche {
         }
 
         couples.sort(Comparator.comparingDouble(Couple::getScore).reversed());
+        appliquerSelecteurMatching(couples, new Configuration().getNPremiers());
         return couples;
     }
 }
