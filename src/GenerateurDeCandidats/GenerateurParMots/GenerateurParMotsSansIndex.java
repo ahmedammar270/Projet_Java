@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.HashMap;
 import nom.Nom;
 
-public class GenerateurParMotsSansIndex {
-
-    public Map<Nom, List<Nom>> genererCorrespondances(List<Nom> listeClient, List<Nom> listeNoire) {
-        Map<Nom, List<Nom>> resultat = new HashMap<>();
+public class GenerateurParMotsSansIndex extends GenerateurParMots {
+    @Override
+    public HashMap<Nom, List<Nom>> genererCandidats(List<Nom> listeClient, List<Nom> listeNoire) {
+        HashMap<Nom, List<Nom>> resultat = new HashMap<>();
 
         if (listeClient == null || listeNoire == null || listeClient.isEmpty() || listeNoire.isEmpty()) {
             return resultat;

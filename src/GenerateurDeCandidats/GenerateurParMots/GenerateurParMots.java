@@ -3,9 +3,11 @@ package GenerateurDeCandidats.GenerateurParMots;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GenerateurParMots {
+import GenerateurDeCandidats.GenerateurDeCandidats;
 
-    protected List<String> decomposerEnMots(String nomComplet) {
+public abstract class GenerateurParMots implements GenerateurDeCandidats {
+
+    protected List<String> genererCandidats(String nomComplet) {
         List<String> mots = new ArrayList<>();
         if (nomComplet == null || nomComplet.isEmpty()) {
             return mots;

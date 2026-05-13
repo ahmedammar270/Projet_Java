@@ -8,13 +8,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import nom.Nom;
 
+
 public class GenerateurParMotsAvecTri extends GenerateurParMots {
 
     public GenerateurParMotsAvecTri() {
     }
 
-    public Map<Nom, List<Nom>> genererCorrespondances(List<Nom> listeClient, List<Nom> listeNoire) {
-        Map<Nom, List<Nom>> resultat = new HashMap<>();
+    public HashMap<Nom, List<Nom>> genererCandidats(List<Nom> listeClient, List<Nom> listeNoire) {
+        HashMap<Nom, List<Nom>> resultat = new HashMap<>();
 
         if (listeClient == null || listeNoire == null || listeClient.isEmpty() || listeNoire.isEmpty()) {
             return resultat;

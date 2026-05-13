@@ -1,1 +1,6 @@
-{"java.project.sourcePaths": ["src"]}
+{
+    "java.project.sourcePaths": [
+        "src",
+        ""
+    ]
+}

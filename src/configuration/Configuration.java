@@ -1,7 +1,7 @@
 package configuration;
+
 import java.util.List;
 import java.util.ArrayList;
-
 
 public class Configuration {
 
@@ -11,13 +11,13 @@ public class Configuration {
     private List<String> typesDeCouples;
     private double toleranceGenerateur;
     private boolean estEntiere;
-    private int     toleranceEntiere;
-    private double  tolerancePourcentage;
+    private int toleranceEntiere;
+    private double tolerancePourcentage;
 
     public Configuration() {
         seuil = 0.8;
         pourcentage = 50.0;
-        nPremiers = 10;
+        nPremiers = 1;
         typesDeCouples = new ArrayList<>();
         toleranceGenerateur = 0.5;
         estEntiere = true;
@@ -25,14 +25,23 @@ public class Configuration {
         tolerancePourcentage = 0.30;
 
     }
-    public boolean toleranceGenerateurestEntiere()    { return estEntiere; }
-    public boolean toleranceGenerateurestPercentage() { return !estEntiere; }
+
+    public boolean toleranceGenerateurestEntiere() {
+        return estEntiere;
+    }
+
+    public boolean toleranceGenerateurestPercentage() {
+        return !estEntiere;
+    }
+
     public int getToleranceEntiere() {
         return toleranceEntiere;
     }
+
     public double getTolerancePourcentage() {
         return tolerancePourcentage;
     }
+
     public void ToleranceEntiere(int t) {
         this.toleranceEntiere = t;
         this.estEntiere = true;

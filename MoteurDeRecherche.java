@@ -4,6 +4,7 @@ import java.util.Map;
 import GenerateurDeCandidats.GenerateurParLongueur.GenerateurParLongueurSansIndex;
 import GenerateurDeCandidats.GenerateurParLongueur.GenerateurParLongueurAvecIndex;
 import GenerateurDeCandidats.GenerateurParSyllabes.GenerateurParSyllabesAvecIndex;
+import GenerateurDeCandidats.GenerateurParSyllabes.GenerateurParSyllabesSansIndex;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -55,18 +56,18 @@ public class MoteurDeRecherche {
         if (nom == null) {
             return;
         }
-        new decouperNom().pretraiter(nom);
+        new DecomposeurSylabe().pretraiter(nom);
     }
 
     private HashMap<Nom, List<Nom>> appliquerGenerateurDeCondidats(List<Nom> liste1, List<Nom> liste2) {
         if (liste1 == null || liste2 == null) {
             return new HashMap<>();
         }
-        return (new GenerateurParLongueurAvecIndex()).genererCandidats(liste1, liste2);
+        return (new GenerateurParSyllabesAvecIndex()).genererCandidats(liste1, liste2);
     }
 
     private double appliquerComparateurDeNoms(Nom nom1, Nom nom2) {
-        return new ComparateurJaroWinkler().comparer(nom1, nom2);
+        return new ComparateurLevenshtein().comparer(nom1, nom2);
     }
 
     private List<Couple> appliquerSelecteurMatching(List<Couple> couples) {

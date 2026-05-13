@@ -5,6 +5,7 @@ C:\Users\Fayna\Nouveau dossier (5)\Projet_Java\LivrerResultat.java
 C:\Users\Fayna\Nouveau dossier (5)\Projet_Java\LivreurResultatExel.java
 C:\Users\Fayna\Nouveau dossier (5)\Projet_Java\Main.java
 C:\Users\Fayna\Nouveau dossier (5)\Projet_Java\MoteurDeRecherche.java
+C:\Users\Fayna\Nouveau dossier (5)\Projet_Java\TestUTF8.java
 C:\Users\Fayna\Nouveau dossier (5)\Projet_Java\src\comparateurs\Comparateur.java
 C:\Users\Fayna\Nouveau dossier (5)\Projet_Java\src\comparateurs\ComparateurDeCaracteres.java
 C:\Users\Fayna\Nouveau dossier (5)\Projet_Java\src\comparateurs\ComparateurDeChaines.java

@@ -10,15 +10,15 @@ public class SelecteurNPremiers implements SelecteurMatching {
     public SelecteurNPremiers(Configuration config) {
         this.n = config.getNPremiers();
     }
+
     public List<Couple> selectionner(List<Couple> couples) {
-        List<Couple> trier = new ArrayList<>(couples);
-        trier.sort((c1, c2) -> Double.compare(c2.getScore(), c1.getScore()));
-        
         List<Couple> resultats = new ArrayList<>();
-        for (int i = 0; i < trier.size(); i++) {
-            if (i < n) {
-                resultats.add(trier.get(i));
-            }
+        if (couples == null || couples.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        for (int i = 0; i < n; i++) {
+            resultats.add(couples.get(i));
         }
         return resultats;
     }
