@@ -1,0 +1,49 @@
+Decomposeur,Comparateur,Generateur,NomRecherche,Top1_Resultat,Top1_Score,Temps_ms
+decouperNom,JaroWinkler,LongueurSansIndex,Yaya Sangaré,Yaya Sangaré,1,0000,44
+decouperNom,JaroWinkler,LongueurSansIndex,abubaker mohamed,abubaker mohamed,0,7975,45
+decouperNom,JaroWinkler,LongueurSansIndex,Vladimir Putin,Vladimir Putin,0,7639,17
+decouperNom,JaroWinkler,LongueurSansIndex,Kim Jong Un,Kim Jong Un,0,9571,13
+decouperNom,JaroWinkler,LongueurAvecIndex,Yaya Sangaré,Yaya Sangaré,1,0000,21
+decouperNom,JaroWinkler,LongueurAvecIndex,abubaker mohamed,abubaker mohamed,0,7975,22
+decouperNom,JaroWinkler,LongueurAvecIndex,Vladimir Putin,Vladimir Putin,0,7639,18
+decouperNom,JaroWinkler,LongueurAvecIndex,Kim Jong Un,Kim Jong Un,0,9571,10
+decouperNom,Levenshtein,LongueurSansIndex,Yaya Sangaré,Yaya Sangaré,1,0000,29
+decouperNom,Levenshtein,LongueurSansIndex,abubaker mohamed,abubaker mohamed,0,6429,30
+decouperNom,Levenshtein,LongueurSansIndex,Vladimir Putin,Vladimir Putin,0,5208,53
+decouperNom,Levenshtein,LongueurSansIndex,Kim Jong Un,Kim Jong Un,0,7857,29
+decouperNom,Levenshtein,LongueurAvecIndex,Yaya Sangaré,Yaya Sangaré,1,0000,12
+decouperNom,Levenshtein,LongueurAvecIndex,abubaker mohamed,abubaker mohamed,0,6429,13
+decouperNom,Levenshtein,LongueurAvecIndex,Vladimir Putin,Vladimir Putin,0,5208,11
+decouperNom,Levenshtein,LongueurAvecIndex,Kim Jong Un,Kim Jong Un,0,7857,9
+decouperNom,ComparateurDeMots,LongueurSansIndex,Yaya Sangaré,Yaya Sangaré,1,0000,9
+decouperNom,ComparateurDeMots,LongueurSansIndex,abubaker mohamed,abubaker mohamed,0,3333,6
+decouperNom,ComparateurDeMots,LongueurSansIndex,Vladimir Putin,Vladimir Putin,0,0000,7
+decouperNom,ComparateurDeMots,LongueurSansIndex,Kim Jong Un,Kim Jong Un,0,2500,5
+decouperNom,ComparateurDeMots,LongueurAvecIndex,Yaya Sangaré,Yaya Sangaré,1,0000,5
+decouperNom,ComparateurDeMots,LongueurAvecIndex,abubaker mohamed,abubaker mohamed,0,3333,6
+decouperNom,ComparateurDeMots,LongueurAvecIndex,Vladimir Putin,Vladimir Putin,0,0000,6
+decouperNom,ComparateurDeMots,LongueurAvecIndex,Kim Jong Un,Kim Jong Un,0,2500,4
+decouperNom,DeCaracteres,LongueurSansIndex,Yaya Sangaré,Yaya Sangaré,1,0000,27
+decouperNom,DeCaracteres,LongueurSansIndex,abubaker mohamed,abubaker mohamed,0,8750,11
+decouperNom,DeCaracteres,LongueurSansIndex,Vladimir Putin,Vladimir Putin,0,7333,11
+decouperNom,DeCaracteres,LongueurSansIndex,Kim Jong Un,Kim Jong Un,0,6429,11
+decouperNom,DeCaracteres,LongueurAvecIndex,Yaya Sangaré,Yaya Sangaré,1,0000,7
+decouperNom,DeCaracteres,LongueurAvecIndex,abubaker mohamed,abubaker mohamed,0,8750,9
+decouperNom,DeCaracteres,LongueurAvecIndex,Vladimir Putin,Vladimir Putin,0,7333,13
+decouperNom,DeCaracteres,LongueurAvecIndex,Kim Jong Un,Kim Jong Un,0,6429,7
+DecomposeurNgrams2,NGram,LongueurSansIndex,Yaya Sangaré,Yaya Sangaré,1,0000,15
+DecomposeurNgrams2,NGram,LongueurSansIndex,abubaker mohamed,abubaker mohamed,0,3500,9
+DecomposeurNgrams2,NGram,LongueurSansIndex,Vladimir Putin,Vladimir Putin,0,2857,9
+DecomposeurNgrams2,NGram,LongueurSansIndex,Kim Jong Un,Kim Jong Un,0,5385,7
+DecomposeurNgrams2,NGram,LongueurAvecIndex,Yaya Sangaré,Yaya Sangaré,1,0000,10
+DecomposeurNgrams2,NGram,LongueurAvecIndex,abubaker mohamed,abubaker mohamed,0,3500,8
+DecomposeurNgrams2,NGram,LongueurAvecIndex,Vladimir Putin,Vladimir Putin,0,2857,8
+DecomposeurNgrams2,NGram,LongueurAvecIndex,Kim Jong Un,Kim Jong Un,0,5385,4
+DecomposeurNgrams3,NGram,LongueurSansIndex,Yaya Sangaré,Yaya Sangaré,1,0000,5
+DecomposeurNgrams3,NGram,LongueurSansIndex,abubaker mohamed,abubaker mohamed,0,2727,9
+DecomposeurNgrams3,NGram,LongueurSansIndex,Vladimir Putin,Vladimir Putin,0,1905,5
+DecomposeurNgrams3,NGram,LongueurSansIndex,Kim Jong Un,Kim Jong Un,0,5000,4
+DecomposeurNgrams3,NGram,LongueurAvecIndex,Yaya Sangaré,Yaya Sangaré,1,0000,4
+DecomposeurNgrams3,NGram,LongueurAvecIndex,abubaker mohamed,abubaker mohamed,0,2727,6
+DecomposeurNgrams3,NGram,LongueurAvecIndex,Vladimir Putin,Vladimir Putin,0,1905,6
+DecomposeurNgrams3,NGram,LongueurAvecIndex,Kim Jong Un,Kim Jong Un,0,5000,5

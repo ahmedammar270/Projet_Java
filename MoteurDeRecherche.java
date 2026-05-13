@@ -1,7 +1,9 @@
 import java.util.List;
 import java.util.Map;
 
+import GenerateurDeCandidats.GenerateurParLongueur.GenerateurParLongueurSansIndex;
 import GenerateurDeCandidats.GenerateurParLongueur.GenerateurParLongueurAvecIndex;
+import GenerateurDeCandidats.GenerateurParSyllabes.GenerateurParSyllabesAvecIndex;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -10,9 +12,11 @@ import java.util.Comparator;
 import comparateurs.ComparateurDeMots;
 import comparateurs.ComparateurJaroWinkler;
 import comparateurs.ComparateurLevenshtein;
+import comparateurs.ComparateurNGram;
 import configuration.Configuration;
 import nom.Couple;
 import nom.Nom;
+import pretraiteurs.DecomposeurNgrams;
 import pretraiteurs.DecomposeurSylabe;
 import pretraiteurs.Pretraiteur;
 import pretraiteurs.SupprimerAccents;
@@ -22,6 +26,7 @@ import pretraiteurs.SupprimerPrefixes;
 import pretraiteurs.TransformerEnMinuscule;
 import pretraiteurs.Trimer;
 import pretraiteurs.decouperNom;
+import GenerateurDeCandidats.GenerateurDeCandidats;
 import selecteurs.SelecteurMatching;
 import selecteurs.SelecteurNPremiers;
 
@@ -57,15 +62,15 @@ public class MoteurDeRecherche {
         if (liste1 == null || liste2 == null) {
             return new HashMap<>();
         }
-        return (new GenerateurParLongueurAvecIndex()).genererCandidat(liste1, liste2);
+        return (new GenerateurParLongueurAvecIndex()).genererCandidats(liste1, liste2);
     }
 
     private double appliquerComparateurDeNoms(Nom nom1, Nom nom2) {
         return new ComparateurJaroWinkler().comparer(nom1, nom2);
     }
 
-    private List<Couple> appliquerSelecteurMatching(List<Couple> couples, int n) {
-        return new SelecteurNPremiers(n).selectionner(couples);
+    private List<Couple> appliquerSelecteurMatching(List<Couple> couples) {
+        return new SelecteurNPremiers(new Configuration()).selectionner(couples);
     }
 
     private void appliquerLivraison(List<Couple> couples) {
@@ -82,23 +87,24 @@ public class MoteurDeRecherche {
         }
         HashMap<Nom, List<Nom>> candidats = appliquerGenerateurDeCondidats(liste1, liste2);
 
-        for (Nom nom1 : liste1) {
-            appliquerDecomposition(nom1);
+        for (Nom nom2 : liste2) {
+            appliquerDecomposition(nom2);
         }
 
         for (Map.Entry<Nom, List<Nom>> entry : candidats.entrySet()) {
             Nom nom1 = entry.getKey();
+            appliquerDecomposition(nom1);
             List<Nom> candidatsPourNom1 = entry.getValue();
             for (Nom candidat : candidatsPourNom1) {
-                appliquerDecomposition(candidat);
                 double score = appliquerComparateurDeNoms(nom1, candidat);
                 couples.add(new Couple(nom1, candidat, score));
             }
         }
 
         couples.sort(Comparator.comparingDouble(Couple::getScore).reversed());
-        List<Couple> resultat = appliquerSelecteurMatching(couples, new Configuration().getNPremiers());
+        List<Couple> resultat = appliquerSelecteurMatching(couples);
         appliquerLivraison(resultat);
+        return resultat;
 
     }
 }
