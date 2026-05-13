@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import nom.Nom;
 public class DecomposeurSylabe implements Pretraiteur{
-      public void pretraiter(Nom nom) {
+    public void pretraiter(Nom nom) {
+        if (nom.getNomPretraite() == null || nom.getNomPretraite().isEmpty()) {
+            return;
+        }
 
         String mot = nom.getNomPretraite().get(0);
-        List<Character> voyelles = Arrays.asList('a','e','i','o','u');
+        if (mot == null || mot.isEmpty()) {
+            return;
+        }
 
+        List<Character> voyelles = Arrays.asList('a','e','i','o','u','y','A','E','I','O','U','Y');
         List<String> syllabes = new ArrayList<>();
         String courant = "";
 

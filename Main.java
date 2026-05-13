@@ -13,7 +13,6 @@ import nom.Couple;
 import nom.Nom;
 
 public class Main {
-    private static int nPremiers = 10;
 
     public static void main(String[] args) {
 
@@ -43,24 +42,7 @@ public class Main {
             listePeps = lireNomsDepuisCsv(csvPath);
         } catch (IOException e) {
             System.err.println("Erreur lors de la lecture du fichier PEPs : " + csvPath);
-            System.err.println("Détails : " + e.getMessage());
             return;
-        }
-
-        // --- Bienvenue ---
-        System.out.println("=== Moteur de recherche PEPs ===");
-
-        // --- Nombre de résultats ---
-        System.out.print("Nombre de résultats à afficher [défaut: 10] : ");
-        String inputN = lireLigne(reader, "");
-        if (!inputN.isEmpty()) {
-            try {
-                nPremiers = Integer.parseInt(inputN);
-                System.out.println("-> " + nPremiers + " résultats seront affichés.");
-            } catch (NumberFormatException e) {
-                System.out.println("-> Valeur invalide, 10 résultats par défaut.");
-                nPremiers = 10;
-            }
         }
 
         // --- Choix du mode ---
@@ -75,16 +57,11 @@ public class Main {
         if (choix.equals("2")) {
             System.out.print("Entrez le chemin du fichier CSV : ");
             String cheminCsv = lireLigne(reader, "");
-            if (cheminCsv.isEmpty()) {
-                System.err.println("Chemin invalide. Arrêt.");
-                return;
-            }
+            if (cheminCsv.isEmpty()) return;
             try {
                 listeQuery = lireNomsDepuisCsv(cheminCsv);
-                System.out.println(listeQuery.size() + " noms chargés depuis " + cheminCsv);
             } catch (IOException e) {
-                System.err.println("Erreur lors de la lecture de " + cheminCsv);
-                System.err.println("Détails : " + e.getMessage());
+                System.err.println("Erreur lecture CSV.");
                 return;
             }
         } else {
@@ -97,53 +74,41 @@ public class Main {
         // --- Recherche ---
         MoteurDeRecherche moteur = new MoteurDeRecherche();
 
-        if (listeQuery.size() == 1) {
-            System.out.println("\nRecherche en cours pour : " + listeQuery.get(0).getName());
-            List<Couple> resultats = moteur.rechercher(listePeps, listeQuery);
-            afficherResultats(resultats, nPremiers);
-            System.out.println("=== Fin de la recherche ===");
+        if (listeQuery.size() > 1) {
+            System.out.println("\nRecherche en cours pour " + listeQuery.size() + " noms...\n");
+        }
 
-        } else {
-            System.out.println("\nRecherche en cours pour " + listeQuery.size() + " noms...");
-            for (Nom nomQuery : listeQuery) {
-                System.out.println("\n--- Recherche : " + nomQuery.getName() + " ---");
-
-                List<Nom> listePepsFraiche;
-                try {
-                    listePepsFraiche = lireNomsDepuisCsv(csvPath);
-                } catch (IOException e) {
-                    System.err.println("Erreur rechargement PEPs : " + e.getMessage());
-                    continue;
-                }
-
-                List<Nom> listeQueryUnique = new ArrayList<>();
-                listeQueryUnique.add(new Nom(nomQuery.getName(), nomQuery.getId()));
-
-                List<Couple> resultats = moteur.rechercher(listePepsFraiche, listeQueryUnique);
-                afficherResultats(resultats, nPremiers);
+        for (Nom nomQuery : listeQuery) {
+            // Copie en mémoire pour performance
+            List<Nom> pepsFrais = copierListe(listePeps);
+            
+            List<Nom> uneRequete = new ArrayList<>();
+            uneRequete.add(new Nom(nomQuery.getName(), nomQuery.getId()));
+            
+            // On lance la recherche
+            List<Couple> resultats = moteur.rechercher(pepsFrais, uneRequete);
+            
+            // Affichage épuré des résultats
+            for (Couple c : resultats) {
+                System.out.println(c.getNom1().getName() + " - " + c.getNom2().getName() + " (score: " + c.getScore() + ")");
             }
-            System.out.println("\n=== Fin de toutes les recherches ===");
         }
     }
 
-    private static void afficherResultats(List<Couple> resultats, int n) {
-        System.out.println("Résultats (top " + n + ") :");
-        int limite = Math.min(n, resultats.size());
-        for (int i = 0; i < limite; i++) {
-            System.out.println("  " + (i + 1) + ". " + resultats.get(i));
+    // --- Copie d'une liste de Nom ---
+    private static List<Nom> copierListe(List<Nom> source) {
+        List<Nom> copie = new ArrayList<>();
+        for (Nom n : source) {
+            copie.add(new Nom(n.getName(), n.getId()));
         }
-        if (resultats.isEmpty()) {
-            System.out.println("  Aucun résultat trouvé.");
-        }
+        return copie;
     }
 
     private static String lireLigne(BufferedReader reader, String defaut) {
         try {
             String line = reader.readLine();
             if (line == null || line.trim().isEmpty()) return defaut;
-            line = line.trim();
-            if (line.startsWith("\uFEFF")) line = line.substring(1);
-            return line;
+            return line.trim();
         } catch (IOException e) {
             return defaut;
         }
@@ -156,20 +121,11 @@ public class Main {
 
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i).trim();
-            if (line.isEmpty()) continue;
-            if (i == 0 && line.toLowerCase().startsWith("id,")) continue;
-
+            if (line.isEmpty() || (i == 0 && line.toLowerCase().startsWith("id,"))) continue;
             String[] parts = line.split(",", 2);
             if (parts.length < 2) continue;
-
-            String id   = parts[0].trim();
-            String name = parts[1].trim();
-            if (!name.isEmpty()) {
-                noms.add(new Nom(name, id));
-            }
+            noms.add(new Nom(parts[1].trim(), parts[0].trim()));
         }
-
-        System.out.println("Chargement de " + noms.size() + " noms depuis " + csvPath);
         return noms;
     }
 }
