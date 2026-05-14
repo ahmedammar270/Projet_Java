@@ -1,4 +1,4 @@
 Omar Hmida 
 ahhmed Ammar 
 Ghassen Assila 
-Med amine Maamri ( fayna + mohamedaminemaamri-max)
+Mohamed Amine Maamri ( Fayna + mohamedaminemaamri-max)
