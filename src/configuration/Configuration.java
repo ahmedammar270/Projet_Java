@@ -17,12 +17,12 @@ public class Configuration {
     public Configuration() {
         seuil = 0.8;
         pourcentage = 50.0;
-        nPremiers = 1;
+        nPremiers = 5;
         typesDeCouples = new ArrayList<>();
         toleranceGenerateur = 0.5;
         estEntiere = true;
-        toleranceEntiere = 3;
-        tolerancePourcentage = 0.30;
+        toleranceEntiere = 5;
+        tolerancePourcentage = 0.5;
 
     }
 

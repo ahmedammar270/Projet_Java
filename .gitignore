@@ -1,5 +1,5 @@
+bin/
 *.class
-*.jar
-*.log
-.idea/
-*.iml
+.vscode/
+names_matching_peps-20260512T200543Z-3-001/
+*.csv

@@ -29,6 +29,7 @@ import pretraiteurs.decouperNom;
 import GenerateurDeCandidats.GenerateurDeCandidats;
 import selecteurs.SelecteurMatching;
 import selecteurs.SelecteurNPremiers;
+import selecteurs.SelecteurParSeuil;
 
 public class MoteurDeRecherche {
 
@@ -103,6 +104,7 @@ public class MoteurDeRecherche {
 
         couples.sort(Comparator.comparingDouble(Couple::getScore).reversed());
         List<Couple> resultat = appliquerSelecteurMatching(couples);
+        appliquerLivraison(resultat);
         return resultat;
 
     }

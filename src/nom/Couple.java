@@ -32,6 +32,6 @@ public class Couple {
 
     
     public String toString() {
-        return nom1.getName() + " - " + nom2.getName() + " (score: " + score + ")";
+        return nom1.getId() + " " + nom1.getName() + " " + nom2.getName() + " (score: " + score + ")";
     }
 }

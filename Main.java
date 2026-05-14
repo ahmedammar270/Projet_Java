@@ -8,15 +8,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import nom.Couple;
 import nom.Nom;
 
 public class Main {
 
+    private static final int NB_COEURS = Runtime.getRuntime().availableProcessors();
+
     public static void main(String[] args) {
 
-        // --- Encodage UTF-8 console ---
         try {
             System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
             System.setErr(new java.io.PrintStream(System.err, true, "UTF-8"));
@@ -24,17 +28,17 @@ public class Main {
             System.err.println("Avertissement: UTF-8 non supporté.");
         }
 
-        // --- Lecteur console UTF-8 ---
-        BufferedReader reader = new BufferedReader(
-            new InputStreamReader(System.in, StandardCharsets.UTF_8)
-        );
+        System.out.println("[INFO] " + NB_COEURS + " coeurs CPU disponibles");
 
-        // --- Chargement de la liste PEPs ---
-        String dirPath = "names_matching_peps-20260512T200543Z-3-001/names_matching_peps";
-        File pepsDir = new File(dirPath);
-        if (!pepsDir.exists() || !pepsDir.isDirectory()) {
-            pepsDir = new File("../" + dirPath);
-        }
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(System.in, StandardCharsets.UTF_8));
+
+        String relPath = "names_matching_peps-20260512T200543Z-3-001/names_matching_peps";
+        File pepsDir = new File(relPath);
+        if (!pepsDir.exists())
+            pepsDir = new File("Projet_Java/" + relPath);
+        if (!pepsDir.exists())
+            pepsDir = new File("../" + relPath);
         String csvPath = new File(pepsDir, "peps_names_512k.csv").getAbsolutePath();
 
         List<Nom> listePeps;
@@ -57,9 +61,11 @@ public class Main {
         if (choix.equals("2")) {
             System.out.print("Entrez le chemin du fichier CSV : ");
             String cheminCsv = lireLigne(reader, "");
-            if (cheminCsv.isEmpty()) return;
+            if (cheminCsv.isEmpty())
+                return;
             try {
                 listeQuery = lireNomsDepuisCsv(cheminCsv);
+                System.out.println(listeQuery.size() + " noms chargés depuis " + cheminCsv);
             } catch (IOException e) {
                 System.err.println("Erreur lecture CSV.");
                 return;
@@ -72,42 +78,61 @@ public class Main {
         }
 
         // --- Recherche ---
-        MoteurDeRecherche moteur = new MoteurDeRecherche();
+        if (listeQuery.size() == 1) {
+            // Nom unique : recherche directe
+            System.out.println("\nRecherche en cours pour : " + listeQuery.get(0).getName());
+            MoteurDeRecherche moteur = new MoteurDeRecherche();
+            moteur.rechercher(copierListe(listePeps), listeQuery);
 
-        if (listeQuery.size() > 1) {
-            System.out.println("\nRecherche en cours pour " + listeQuery.size() + " noms...\n");
-        }
+        } else {
+            // CSV : recherche parallèle, un thread par nom
+            System.out.println("\nRecherche parallèle sur " + listeQuery.size()
+                    + " noms avec " + NB_COEURS + " coeurs...\n");
 
-        for (Nom nomQuery : listeQuery) {
-            // Copie en mémoire pour performance
-            List<Nom> pepsFrais = copierListe(listePeps);
-            
-            List<Nom> uneRequete = new ArrayList<>();
-            uneRequete.add(new Nom(nomQuery.getName(), nomQuery.getId()));
-            
-            // On lance la recherche
-            List<Couple> resultats = moteur.rechercher(pepsFrais, uneRequete);
-            
-            // Affichage épuré des résultats
-            for (Couple c : resultats) {
-                System.out.println(c.getNom1().getName() + " - " + c.getNom2().getName() + " (score: " + c.getScore() + ")");
+            final String csvPathFinal = csvPath;
+            ExecutorService pool = Executors.newFixedThreadPool(NB_COEURS);
+            List<Future<?>> futures = new ArrayList<>();
+
+            for (Nom nomQuery : listeQuery) {
+                futures.add(pool.submit(() -> {
+                    try {
+                        List<Nom> pepsFrais = lireNomsDepuisCsv(csvPathFinal);
+                        List<Nom> uneRequete = new ArrayList<>();
+                        uneRequete.add(new Nom(nomQuery.getName(), nomQuery.getId()));
+
+                        MoteurDeRecherche moteur = new MoteurDeRecherche();
+                        moteur.rechercher(pepsFrais, uneRequete);
+                    } catch (IOException e) {
+                        System.err.println("Erreur pour " + nomQuery.getName() + " : " + e.getMessage());
+                    }
+                }));
             }
+
+            for (Future<?> f : futures) {
+                try {
+                    f.get();
+                } catch (Exception e) {
+                    System.err.println("[ERREUR thread] " + e.getMessage());
+                }
+            }
+            pool.shutdown();
+            System.out.println("\n=== Fin de toutes les recherches ===");
         }
     }
 
     // --- Copie d'une liste de Nom ---
     private static List<Nom> copierListe(List<Nom> source) {
         List<Nom> copie = new ArrayList<>();
-        for (Nom n : source) {
+        for (Nom n : source)
             copie.add(new Nom(n.getName(), n.getId()));
-        }
         return copie;
     }
 
     private static String lireLigne(BufferedReader reader, String defaut) {
         try {
             String line = reader.readLine();
-            if (line == null || line.trim().isEmpty()) return defaut;
+            if (line == null || line.trim().isEmpty())
+                return defaut;
             return line.trim();
         } catch (IOException e) {
             return defaut;
@@ -121,9 +146,11 @@ public class Main {
 
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i).trim();
-            if (line.isEmpty() || (i == 0 && line.toLowerCase().startsWith("id,"))) continue;
+            if (line.isEmpty() || (i == 0 && line.toLowerCase().startsWith("id,")))
+                continue;
             String[] parts = line.split(",", 2);
-            if (parts.length < 2) continue;
+            if (parts.length < 2)
+                continue;
             noms.add(new Nom(parts[1].trim(), parts[0].trim()));
         }
         return noms;
