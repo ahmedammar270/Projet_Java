@@ -95,15 +95,13 @@ public class Main {
 
             for (Nom nomQuery : listeQuery) {
                 futures.add(pool.submit(() -> {
-                    try {
-                        List<Nom> pepsFrais = lireNomsDepuisCsv(csvPathFinal);
-                        List<Nom> uneRequete = new ArrayList<>();
-                        uneRequete.add(new Nom(nomQuery.getName(), nomQuery.getId()));
+                    List<Nom> pepsFrais = copierListe(listePeps);
+                    List<Nom> uneRequete = new ArrayList<>();
+                    uneRequete.add(new Nom(nomQuery.getName(), nomQuery.getId()));
 
-                        MoteurDeRecherche moteur = new MoteurDeRecherche();
+                    MoteurDeRecherche moteur = new MoteurDeRecherche();
+                    synchronized (System.out) {
                         moteur.rechercher(pepsFrais, uneRequete);
-                    } catch (IOException e) {
-                        System.err.println("Erreur pour " + nomQuery.getName() + " : " + e.getMessage());
                     }
                 }));
             }
