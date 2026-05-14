@@ -55,7 +55,7 @@ public class GestionnaireFichiers {
         // Exemple d'utilisation simple
         GestionnaireFichiers gf = new GestionnaireFichiers();
         System.out.println("Fiches actuelles : " + gf.listerFiches());
-        
+
         try {
             String testFile = "peps_supplement.csv";
             gf.ajouterFiche(testFile, "NEW-001", "Nouvel Entrant");
